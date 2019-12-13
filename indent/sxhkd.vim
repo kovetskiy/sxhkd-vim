@@ -20,21 +20,12 @@ function GetIndentSXHKD()
 		return 0
 	endif
 
-	let indentation = indent(lnum)
-	let line = getline(lnum)
-
-	if line =~ '\v^\t'
-        let indentation = 0
+	let prev_line = getline(lnum)
+	if prev_line =~ '^\s*#'
+        return 0
+    elseif prev_line =~ '\v^\s+'
+        return 0
     else
-		let indentation = &sw
+		return &sw
 	endif
-
-	let line = getline(v:lnum)
-
-    " handle comments
-	if line =~ '^\s*#'
-		let indentation = 0
-	endif
-
-	return indentation
 endfunction
